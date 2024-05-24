@@ -32,7 +32,7 @@ namespace Gameplay
 
             void initializeSticks();
             float calculateStickWidth();
-            float calculateStickHeight(int i);
+            float calculateStickHeight(int array_pos);
 
             void updateStickPosition();
             void shuffleSticks();

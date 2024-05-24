@@ -64,10 +64,27 @@ namespace Gameplay
 
 		float StickCollectionController::calculateStickWidth()
 		{
-			float total_spacing = collection_model->elements_spacing * (collection_model->number_of_elements + 1);
-			float total_width = ServiceLocator::getInstance()->getGraphicService()->getGameWindow()->getSize().x;
+			float total_space = static_cast<float>(ServiceLocator::getInstance()->getGraphicService()->getGameWindow()->getSize().x);
 
-			return (total_width - total_spacing) / collection_model->number_of_elements;
+			// Calculate total spacing as 10% of the total space
+			float total_spacing = collection_model->space_percentage * total_space;
+
+			// Calculate the space between each stick
+			float space_between = total_spacing / (collection_model->number_of_elements - 1);
+			collection_model->setElementSpacing(space_between);
+
+			// Calculate the remaining space for the rectangles
+			float remaining_space = total_space - total_spacing;
+
+			// Calculate the width of each rectangle
+			float rectangle_width = remaining_space / collection_model->number_of_elements;
+
+			return rectangle_width;
+		}
+
+		float StickCollectionController::calculateStickHeight(int array_pos)
+		{
+			return (static_cast<float>(array_pos + 1) / collection_model->number_of_elements) * collection_model->max_element_height;
 		}
 
 		void StickCollectionController::updateStickPosition()
